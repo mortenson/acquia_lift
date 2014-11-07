@@ -8,6 +8,8 @@ Rickshaw.namespace('Rickshaw.Graph.TableLegend');
 Rickshaw.Graph.TableLegend = Rickshaw.Class.create(Rickshaw.Graph.Legend, {
 
   initialize: function(args) {
+    "use strict";
+
     this.element = args.element;
     this.graph = args.graph;
 
@@ -19,27 +21,29 @@ Rickshaw.Graph.TableLegend = Rickshaw.Class.create(Rickshaw.Graph.Legend, {
     this.graph.onUpdate( function() {} );
   },
   render: function() {
-    var $ = jQuery,
-        self = this,
-        $label = $(this.element).find('thead > tr > th:first-child');
+    "use strict";
+
+    var self = this;
 
     this.lines = [];
 
     var series = this.graph.series
-      .map( function(s) { return s } );
+      .map( function(s) { return s; } );
 
     series.forEach( function(s) {
       self.addLine(s);
     } );
   },
   addLine: function (series) {
+    "use strict";
+
     var $ = jQuery,
         self = this;
 
     $(this.element).find('tbody > tr').each(function (index, row) {
       var $cell = $(row).find('td:first-child');
 
-      if ($(row).find('td:first-child').text() == series.name) {
+      if ($(row).find('td:first-child').text() === series.name) {
 
         $cell.addClass('legend line');
         if (series.disabled) {

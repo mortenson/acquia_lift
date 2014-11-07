@@ -45,7 +45,7 @@
             // Make sure the proper metric column is set and render the graph.
             $data.attr('data-liftgraph-columny', metricColumn()).liftGraph();
           });
-        })
+        });
 
         // Attach a data column to a metric option.
         // Change the data fed to the y-axis and update the graph.
@@ -56,12 +56,12 @@
           // Change the data-liftgraph-columny attribute and rebuild the graph.
           $data.attr('data-liftgraph-columny', metricColumn())
             .liftGraph('update');
-        })
+        });
       });
 
       // Hide the submit button.
       $('.acquia-lift-report-section-options .form-submit').hide();
     }
-  }
+  };
 
 }(Drupal.jQuery, Drupal));

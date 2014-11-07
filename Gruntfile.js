@@ -33,7 +33,6 @@ module.exports = function(grunt) {
     },
     concat: {
       options: {
-        sourceMap: true,
         separator: "\n"
       },
       reports: {
@@ -55,6 +54,13 @@ module.exports = function(grunt) {
     },
     concurrent: {
       all: ['style', 'script', 'test']
+    },
+    eslint: {
+      options: {
+        config: '.eslintrc'
+      },
+      source: ['src/js/help/**/*.js', 'src/js/reports/**/*.js'],
+      processed: ['js/acquia_lift.help.js', 'js/acquia_lift.reports.js']
     },
     // Can only test those QUnit tests that do not require Drupal interaction.
     qunit: {
@@ -94,10 +100,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-qunit');
+  grunt.loadNpmTasks('grunt-eslint');
 
   // Default task(s).
   grunt.registerTask('default', ['concurrent:all']);
   grunt.registerTask('style', ['sass', 'autoprefixer']);
-  grunt.registerTask('script', ['concat']);
+  grunt.registerTask('script', ['eslint:source', 'concat', 'eslint:processed']);
   grunt.registerTask('test', ['qunit']);
 };

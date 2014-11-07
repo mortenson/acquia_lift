@@ -33,12 +33,12 @@
               screen: true
             },
             style: {
-              tip: true,
+              tip: true
             }
           });
           $(this).append(trigger);
-        })
+        });
       });
     }
-  }
+  };
 }(Drupal.jQuery, Drupal));

@@ -1106,5 +1106,3 @@
   Drupal.ajax.prototype.commands.modal_dismiss = Drupal.CTools.Modal.modal_dismiss;
 
 })(Drupal.jQuery, Drupal);
-
-//# sourceMappingURL=acquia_lift.flow.js.map

@@ -506,5 +506,3 @@
 
 
 }(Drupal.jQuery, Drupal));
-
-//# sourceMappingURL=acquia_lift.goals_queue.js.map

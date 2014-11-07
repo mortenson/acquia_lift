@@ -33,14 +33,12 @@
               screen: true
             },
             style: {
-              tip: true,
+              tip: true
             }
           });
           $(this).append(trigger);
-        })
+        });
       });
     }
-  }
+  };
 }(Drupal.jQuery, Drupal));
-
-//# sourceMappingURL=acquia_lift.help.js.map

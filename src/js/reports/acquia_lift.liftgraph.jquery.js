@@ -3,7 +3,7 @@
  * ----------------------------------------------------------------------------
  */
 
-+function ($) {
+(function ($) {
   'use strict';
 
   // Assemble the object.
@@ -11,10 +11,10 @@
     this.type =
     this.options =
     this.enabled =
-    this.$element = null
+    this.$element = null;
 
     this.init('liftGraph', element, options);
-  }
+  };
 
   // Define the plugin defaults.
   liftGraph.DEFAULTS = {
@@ -34,51 +34,55 @@
 
   // Initialize the plugin functionality.
   liftGraph.prototype.init = function (type, element, options) {
-    this.type = type
-    this.$element = $(element)
-    this.options = this.getOptions(options)
-    this.enabled = true
+    this.type = type;
+    this.$element = $(element);
+    this.options = this.getOptions(options);
+    this.enabled = true;
 
     this.render();
-  }
+  };
 
   // Enable the graph.
   liftGraph.prototype.enable = function () {
     this.enabled = true;
-  }
+  };
 
   // Disable the graph.
   liftGraph.prototype.disable = function () {
     this.enabled = false;
-  }
+  };
 
   // Get the option value of a data attribute.
   liftGraph.prototype.dataAttr = function (key) {
     return this.$element.attr('data-' + this.type + '-' + key);
-  }
+  };
 
   // Get default values.
   liftGraph.prototype.getDefaults = function () {
     return liftGraph.DEFAULTS;
-  }
+  };
 
   // Get options.
   liftGraph.prototype.getOptions = function (options) {
     options = $.extend({}, this.getDefaults(), options);
     for (var i in options) {
-      options[i] = this.dataAttr(i) || options[i];
+      if (options.hasOwnProperty(i)) {
+        options[i] = this.dataAttr(i) || options[i];
+      }
     }
     return options;
-  }
+  };
 
   // Update options.
   liftGraph.prototype.updateOptions = function () {
     var options = this.options;
     for (var i in options) {
-      options[i] = this.dataAttr(i) || options[i];
+      if (options.hasOwnProperty(i)) {
+        options[i] = this.dataAttr(i) || options[i];
+      }
     }
     return options;
-  }
+  };
 
   // Collect the data from the table.
   liftGraph.prototype.getData = function () {
@@ -119,7 +123,7 @@
 
     this.columns = columns;
     this.groups = grouped;
-  }
+  };
 
   // Build graphing coordinates.
   liftGraph.prototype.buildSeries = function (columnX, columnY, columnName) {
@@ -128,7 +132,6 @@
         yKey = this.columns[columnY - 1],
         nameKey = this.columns[columnName - 1],
         series = [],
-        results = $('.lift-graph-results > tbody > tr > td:first-child'),
         counter = 0;
 
     for (var key in groups) {
@@ -154,7 +157,7 @@
     }
 
     this.series = series;
-  }
+  };
 
   // Get the optimal number of palette colors.
   liftGraph.prototype.getPalette = function () {
@@ -175,7 +178,7 @@
     }
 
     this.palette = new Rickshaw.Color.Palette(configuration);
-  }
+  };
 
   // Get the graph object.
   liftGraph.prototype.getGraph = function () {
@@ -243,7 +246,7 @@
 
     // Add the raw data to the
     this.graph.rawData = this;
-  }
+  };
 
   // Get the x-axis.
   liftGraph.prototype.setAxisX = function () {
@@ -254,11 +257,11 @@
       orientation: 'bottom',
       graph: this.graph
     });
-  }
+  };
 
   // Get the y-axis.
   liftGraph.prototype.setAxisY = function () {
-    var orientation = $('html').attr('dir') == 'rtl' ? 'right' : 'left';
+    var orientation = $('html').attr('dir') === 'rtl' ? 'right' : 'left';
 
     this.axisY = new Rickshaw.Graph.Axis.LabeledY({
       element: this.$axisY[0],
@@ -266,7 +269,7 @@
       label: this.columns[this.options.columnY - 1],
       graph: this.graph
     });
-  }
+  };
 
   // Get the legend.
   liftGraph.prototype.setLegend = function () {
@@ -274,7 +277,7 @@
       element: this.$legend[0],
       graph: this.graph
     });
-  }
+  };
 
   // Get the range slider.
   liftGraph.prototype.setRangeSlider = function () {
@@ -282,14 +285,14 @@
       element: this.$rangeSlider[0],
       graph: this.graph
     });
-  }
+  };
 
   // Activate hover details.
   liftGraph.prototype.setHoverDetail = function () {
     this.hoverDetail = new Rickshaw.Graph.ClickDetail({
       graph: this.graph
     });
-  }
+  };
 
   // Highlight a series when hovering on legend.
   liftGraph.prototype.setSeriesHighlight = function () {
@@ -297,7 +300,7 @@
       graph: this.graph,
       legend: this.legend
     });
-  }
+  };
 
   // Allow a user to togle graph data via the legend.
   liftGraph.prototype.setSeriesToggle = function () {
@@ -306,7 +309,7 @@
       graph: this.graph,
       legend: this.legend
     });
-  }
+  };
 
   // Format the elements of the graph.
   liftGraph.prototype.build = function () {
@@ -324,17 +327,17 @@
       .before(this.$graph)
       .before(this.$axisX)
       .before(this.$rangeSlider);
-  }
+  };
 
   // Hide the table.
   liftGraph.prototype.hideTable = function () {
     this.$element.hide();
-  }
+  };
 
   // Show the table.
   liftGraph.prototype.showTable = function () {
     this.$element.show();
-  }
+  };
 
   // Render the graph.
   liftGraph.prototype.render = function () {
@@ -349,7 +352,7 @@
     this.setHoverDetail();
     this.graph.render();
     this.hideTable();
-  }
+  };
 
   liftGraph.prototype.update = function () {
     // Rebuild the data.
@@ -370,7 +373,7 @@
     this.axisY.label = this.columns[this.options.columnY - 1];
 
     this.graph.update();
-  }
+  };
 
   // Define the jQuery plugin.
   var old = $.fn.railroad;
@@ -380,15 +383,15 @@
       var $this = $(this),
           data = $this.data('lift.graph');
 
-      if (!data) $this.data('lift.graph', (data = new liftGraph(this, option)));
-      if (typeof option == 'string') data[option]($this);
+      if (!data) { $this.data('lift.graph', (data = new liftGraph(this, option))); }
+      if (typeof option == 'string') { data[option]($this); }
     });
-  }
+  };
 
   $.fn.liftGraph.Constrictor = liftGraph;
 
   $.fn.liftGraph.noConflict = function () {
     $.fn.liftGraph = old;
     return this;
-  }
-}(Drupal.jQuery);
+  };
+})(Drupal.jQuery);

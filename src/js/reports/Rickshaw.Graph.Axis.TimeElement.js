@@ -6,6 +6,7 @@
 Rickshaw.namespace('Rickshaw.Graph.Axis.TimeElement');
 
 Rickshaw.Graph.Axis.TimeElement = function(args) {
+  "use strict";
 
   var self = this,
       berthRate = 0.10,
@@ -18,8 +19,8 @@ Rickshaw.Graph.Axis.TimeElement = function(args) {
     this.orientation = args.orientation || 'top';
 
     this.pixelsPerTick = args.pixelsPerTick || 75;
-    if (args.ticks) this.staticTicks = args.ticks;
-    if (args.tickValues) this.tickValues = args.tickValues;
+    if (args.ticks) { this.staticTicks = args.ticks; }
+    if (args.tickValues) { this.tickValues = args.tickValues; }
 
     this.tickSize = args.tickSize || 4;
     this.ticksTreatment = args.ticksTreatment || 'plain';
@@ -44,13 +45,13 @@ Rickshaw.Graph.Axis.TimeElement = function(args) {
       this.vis = this.graph.vis;
     }
 
-    this.graph.onUpdate( function() { self.render() } );
+    this.graph.onUpdate( function() { self.render(); } );
   };
 
   this.setSize = function(args) {
 
     args = args || {};
-    if (!this.element) return;
+    if (!this.element) { return; }
 
     this._discoverSize(this.element.parentNode, args);
 
@@ -86,18 +87,18 @@ Rickshaw.Graph.Axis.TimeElement = function(args) {
 
     var unit = this.fixedTimeUnit || this.appropriateTimeUnit();
 
-    if (this._renderWidth !== undefined && this.graph.width !== this._renderWidth) this.setSize({ auto: true });
+    if (this._renderWidth !== undefined && this.graph.width !== this._renderWidth) { this.setSize({ auto: true }); }
 
     var axis = d3.svg.axis().scale(this.graph.x).orient(this.orientation);
-    axis.tickFormat( args.tickFormat || function(x) { return unit.formatter(new Date(x * 1000)) } );
-    if (this.tickValues) axis.tickValues(this.tickValues);
+    axis.tickFormat( args.tickFormat || function(x) { return unit.formatter(new Date(x * 1000)); } );
+    if (this.tickValues) { axis.tickValues(this.tickValues); }
 
     this.ticks = this.staticTicks || Math.floor(this.graph.width / this.pixelsPerTick);
 
     var berth = Math.floor(this.width * berthRate / 2) || 0,
         transform;
 
-    if (this.orientation == 'top') {
+    if (this.orientation === 'top') {
       var yOffset = this.height || this.graph.height;
       transform = 'translate(' + berth + ',' + yOffset + ')';
     } else {
@@ -114,7 +115,7 @@ Rickshaw.Graph.Axis.TimeElement = function(args) {
       .attr("transform", transform)
       .call(axis.ticks(this.ticks).tickSubdivide(0).tickSize(this.tickSize));
 
-    var gridSize = (this.orientation == 'bottom' ? 1 : -1) * this.graph.height;
+    var gridSize = (this.orientation === 'bottom' ? 1 : -1) * this.graph.height;
 
     this.graph.vis
       .append("svg:g")
@@ -122,7 +123,7 @@ Rickshaw.Graph.Axis.TimeElement = function(args) {
       .call(axis.ticks(this.ticks).tickSubdivide(0).tickSize(gridSize))
       .selectAll('text')
       .each(function() {
-        this.parentNode.setAttribute('data-x-value', this.textContent)
+        this.parentNode.setAttribute('data-x-value', this.textContent);
       });
 
     this._renderHeight = this.graph.height;

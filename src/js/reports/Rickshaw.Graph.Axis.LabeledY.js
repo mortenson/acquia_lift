@@ -8,6 +8,7 @@ Rickshaw.namespace('Rickshaw.Graph.Axis.LabeledY');
 
 Rickshaw.Graph.Axis.LabeledY = Rickshaw.Class.create(Rickshaw.Graph.Axis.Y, {
   initialize: function(args) {
+    "use strict";
 
     this.label = args.label || '';
 
@@ -15,13 +16,13 @@ Rickshaw.Graph.Axis.LabeledY = Rickshaw.Class.create(Rickshaw.Graph.Axis.Y, {
     this.orientation = args.orientation || 'right';
 
     this.pixelsPerTick = args.pixelsPerTick || 75;
-    if (args.ticks) this.staticTicks = args.ticks;
-    if (args.tickValues) this.tickValues = args.tickValues;
+    if (args.ticks) { this.staticTicks = args.ticks; }
+    if (args.tickValues) { this.tickValues = args.tickValues; }
 
     this.tickSize = args.tickSize || 4;
     this.ticksTreatment = args.ticksTreatment || 'plain';
 
-    this.tickFormat = args.tickFormat || function(y) { return y };
+    this.tickFormat = args.tickFormat || function(y) { return y; };
 
     this.berthRate = 0.10;
 
@@ -42,25 +43,32 @@ Rickshaw.Graph.Axis.LabeledY = Rickshaw.Class.create(Rickshaw.Graph.Axis.Y, {
     }
 
     var self = this;
-    this.graph.onUpdate( function() { self.render() } );
+    this.graph.onUpdate( function() { self.render(); } );
   },
   _drawAxis: function(scale) {
+    "use strict";
+
     var axis = d3.svg.axis().scale(scale).orient(this.orientation);
 
     axis.tickFormat(this.tickFormat);
-    if (this.tickValues) axis.tickValues(this.tickValues);
+    if (this.tickValues) { axis.tickValues(this.tickValues); }
 
-    if (this.orientation == 'left') {
+    var labelX,
+        labelY,
+        labelTransform;
+
+    if (this.orientation === 'left') {
       var berth = this.height * this.berthRate,
-          transform = 'translate(' + this.width + ', ' + berth + ')',
-          labelX = this.height / 4 * -1,
-          labelY = this.width / 3,
-          labelTransform = 'rotate(-90 50 50)';
+          transform = 'translate(' + this.width + ', ' + berth + ')';
+
+      labelX = this.height / 4 * -1;
+      labelY = this.width / 3;
+      labelTransform = 'rotate(-90 50 50)';
     }
-    else if (this.orientation == 'right') {
-      var labelX = this.height / 2,
-          labelY = this.width / 3 * 2,
-          labelTransform = 'rotate(90 50 50)';
+    else if (this.orientation === 'right') {
+      labelX = this.height / 2;
+      labelY = this.width / 3 * 2;
+      labelTransform = 'rotate(90 50 50)';
     }
 
     if (this.element) {
@@ -73,7 +81,7 @@ Rickshaw.Graph.Axis.LabeledY = Rickshaw.Class.create(Rickshaw.Graph.Axis.Y, {
       .attr("transform", transform)
       .call(axis.ticks(this.ticks).tickSubdivide(0).tickSize(this.tickSize));
 
-    label = this.vis
+    this.vis
       .append("svg:text")
       .attr('class', 'y-axis-label')
       .attr('x', labelX)

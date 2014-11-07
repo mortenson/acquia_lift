@@ -7,11 +7,12 @@ Rickshaw.namespace('Rickshaw.Graph.ClickDetail');
 
 Rickshaw.Graph.ClickDetail = Rickshaw.Class.create(Rickshaw.Graph.HoverDetail, {
   initialize: function(args) {
+    "use strict";
 
 		var graph = this.graph = args.graph;
 
-    this.tooltipTimeout;
-    this.wiggleTimeout;
+    // this.tooltipTimeout;
+    // this.wiggleTimeout;
     this.tooltipPinned = false;
 
 		this.xFormatter = args.xFormatter || function(x) {
@@ -39,16 +40,17 @@ Rickshaw.Graph.ClickDetail = Rickshaw.Class.create(Rickshaw.Graph.HoverDetail, {
 
 	},
   formatter: function(series, x, y, formattedX, formattedY, d) {
+    "use strict";
+
     var self = this,
         options = this.graph.rawData.options,
         columns = this.graph.rawData.columns,
         xKey = columns[options.columnX - 1],
-        yKey = columns[options.columnY - 1],
         nameKey = columns[options.columnName - 1],
         data = this.graph.rawData.groups,
         time = new Date(x * 1000),
-        months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        humanDate = months[time.getUTCMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear()
+        months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        humanDate = months[time.getUTCMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear(),
         head = function () {
           var date = '<th>' + humanDate + '</th>',
               variations = '';
@@ -63,7 +65,7 @@ Rickshaw.Graph.ClickDetail = Rickshaw.Class.create(Rickshaw.Graph.HoverDetail, {
           var output = '<td class="label">' + data.property + '</td>';
 
           for (var i = 0; i < data.data.length; i++) {
-            if (typeof data.data[i].active != 'undefined' && data.data[i].active == true) {
+            if (typeof data.data[i].active !== 'undefined' && data.data[i].active === true) {
               output = output + '<td class="active">' + data.data[i].value + '</td>';
             }
             else {
@@ -78,15 +80,15 @@ Rickshaw.Graph.ClickDetail = Rickshaw.Class.create(Rickshaw.Graph.HoverDetail, {
 
           // Build each row of data.
           for (var key = 0; key < data[series.name].length; key++) {
-            if (data[series.name][key][xKey] == x) {
+            if (parseInt(data[series.name][key][xKey]) === parseInt(x)) {
               for (var property in data[series.name][key]) {
-                if (data[series.name][key].hasOwnProperty(property) && property != xKey && property != nameKey && property != nameKey + ' label') {
+                if (data[series.name][key].hasOwnProperty(property) && property !== xKey && property !== nameKey && property !== nameKey + ' label') {
                   var rowData = {property: property, data: []};
 
                   for (var group in data) {
                     if (data.hasOwnProperty(group)) {
                       var information = {value: data[group][key][property]};
-                      if (series.name == data[group][key][nameKey]) {
+                      if (series.name === data[group][key][nameKey]) {
                         information.active = true;
                       }
                       rowData.data.push(information);
@@ -94,10 +96,10 @@ Rickshaw.Graph.ClickDetail = Rickshaw.Class.create(Rickshaw.Graph.HoverDetail, {
                   }
 
                   output += row(rowData);
-                };
-              };
-            };
-          };
+                }
+              }
+            }
+          }
 
           return '<tbody>' + output + '</tbody>';
         };
@@ -105,12 +107,14 @@ Rickshaw.Graph.ClickDetail = Rickshaw.Class.create(Rickshaw.Graph.HoverDetail, {
     return '<div class="lift-graph-detail"><table class="lift-graph-detail-data">' + head() + rows() + '</table></div>';
   },
   render: function (args) {
+    "use strict";
+
     var $ = jQuery,
         graph = this.graph,
         points = args.points,
-        point = points.filter( function(p) { return p.active } ).shift();
+        point = points.filter( function(p) { return p.active; } ).shift();
 
-    if (point.value.y === null) return;
+    if (point.value.y === null) { return; }
 
     var formattedXValue = point.formattedXValue,
         formattedYValue = point.formattedYValue;
@@ -191,6 +195,8 @@ Rickshaw.Graph.ClickDetail = Rickshaw.Class.create(Rickshaw.Graph.HoverDetail, {
     }
   },
   _calcLayout: function(element) {
+    "use strict";
+
     var layout = {top: 0, right: 0, bottom: 0, left: 0},
         parentRect = this.element.parentNode.getBoundingClientRect(),
         rect = element.getBoundingClientRect();
@@ -214,6 +220,8 @@ Rickshaw.Graph.ClickDetail = Rickshaw.Class.create(Rickshaw.Graph.HoverDetail, {
     return layout;
   },
   _addListeners: function() {
+    "use strict";
+
     var $ = jQuery,
         self = this,
         $element = $(this.element);
@@ -266,14 +274,12 @@ Rickshaw.Graph.ClickDetail = Rickshaw.Class.create(Rickshaw.Graph.HoverDetail, {
 			'mouseout',
 			function(e) {
         if (this.tooltipPinned === false) {
-          var self = this;
-
-  				if (e.relatedTarget && !(e.relatedTarget.compareDocumentPosition(this.graph.element) & Node.DOCUMENT_POSITION_CONTAINS)) {
+          if (e.relatedTarget && !(e.relatedTarget.compareDocumentPosition(this.graph.element) & Node.DOCUMENT_POSITION_CONTAINS)) {
             clearTimeout(this.tooltipTimeout);
             this.tooltipTimeout = window.setTimeout(function () {
               self.hide();
             }, 500);
-  				}
+          }
         }
 			}.bind(this),
 			false
