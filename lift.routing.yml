@@ -1,0 +1,10 @@
+lift.view_entity_by_id:
+  path: '/lift/{entity_type}/{entity}'
+  defaults:
+    _controller: '\Drupal\lift\Controller\LiftController::view'
+  options:
+    parameters:
+      entity:
+        type: entity:{entity_type}
+  requirements:
+    _entity_access: entity.view
