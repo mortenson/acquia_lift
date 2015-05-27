@@ -1,6 +1,8 @@
 lift.view_entity_by_id:
   path: '/lift/{entity_type}/{entity}'
   defaults:
+    # Switch to the following after https://www.drupal.org/node/2495947.
+    # _entity_view: entity
     _controller: '\Drupal\lift\Controller\LiftController::view'
   options:
     parameters:

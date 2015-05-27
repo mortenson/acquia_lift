@@ -7,33 +7,23 @@
 
 namespace Drupal\lift\Controller;
 
-use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Entity\Controller\EntityViewController;
 use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Returns responses for Lift routes.
  */
-class LiftController extends ControllerBase {
+class LiftController extends EntityViewController {
 
   /**
-   * Renders a given entity.
+   * {@inheritdoc}
    *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity to be viewed.
-   *
-   * @return array
-   *   Either a render array for this entity, or an empty array if this entity
-   *   type does not provide a view builder.
+   * @todo Remove once https://www.drupal.org/node/2495947 is in.
    */
-  public function view(EntityInterface $entity) {
-    $entity_manager = $this->entityManager();
-    $entity_type_id = $entity->getEntityTypeId();
-
+  public function view(EntityInterface $entity, $view_mode = 'full', $langcode = NULL) {
     $return = [];
-    if ($entity_manager->hasHandler($entity_type_id, 'view_builder')) {
-      $return = $entity_manager
-        ->getViewBuilder($entity_type_id)
-        ->view($entity);
+    if ($this->entityManager->hasHandler($entity->getEntityTypeId(), 'view_builder')) {
+      $return = parent::view($entity, $view_mode, $langcode);
     }
     return $return;
   }
