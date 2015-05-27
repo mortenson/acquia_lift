@@ -9,6 +9,7 @@ namespace Drupal\lift\Controller;
 
 use Drupal\Core\Entity\Controller\EntityViewController;
 use Drupal\Core\Entity\EntityInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Returns responses for Lift routes.
@@ -26,6 +27,19 @@ class LiftController extends EntityViewController {
       $return = parent::view($entity, $view_mode, $langcode);
     }
     return $return;
+  }
+
+  /**
+   * Returns a JSON representation of the entity.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity being viewed.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   A JSON representation of the entity.
+   */
+  public function viewJson(EntityInterface $entity) {
+    return new JsonResponse($entity->toArray());
   }
 
 }

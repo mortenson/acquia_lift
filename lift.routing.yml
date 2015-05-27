@@ -10,3 +10,16 @@ lift.view_entity_by_id:
         type: entity:{entity_type}
   requirements:
     _entity_access: entity.view
+    _format: 'html'
+
+lift.view_entity_by_id.json:
+  path: '/lift/{entity_type}/{entity}'
+  defaults:
+    _controller: '\Drupal\lift\Controller\LiftController::viewJson'
+  options:
+    parameters:
+      entity:
+        type: entity:{entity_type}
+  requirements:
+    _entity_access: entity.view
+    _format: 'json'
