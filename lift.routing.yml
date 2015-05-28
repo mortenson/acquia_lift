@@ -40,7 +40,7 @@ entity.lift_block.collection:
     _entity_list: 'lift_block'
     _title: 'Lift blocks'
   requirements:
-    _access: 'TRUE'
+    _permission: 'administer lift'
 
 entity.lift_block.add_form:
   path: '/admin/structure/lift/block/add'

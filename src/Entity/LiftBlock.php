@@ -20,7 +20,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *   base_table = "lift_block",
  *   bundle_label = @Translation("Lift block type"),
  *   handlers = {
- *     "access" = "\Drupal\lift\Entity\LiftBlockAccessControlHandler",
+ *     "access" = "\Drupal\Core\Entity\EntityAccessControlHandler",
  *     "list_builder" = "\Drupal\lift\Entity\LiftBlockListBuilder",
  *     "view_builder" = "\Drupal\lift\Entity\LiftBlockViewBuilder",
  *     "views_data" = "\Drupal\lift\Entity\ListBlockViewsData",
@@ -31,6 +31,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *       "edit" = "\Drupal\lift\Entity\Form\LiftBlockEditForm",
  *     },
  *   },
+ *   admin_permission = "administer lift",
  *   entity_keys = {
  *     "id" = "id",
  *     "uuid" = "uuid",
