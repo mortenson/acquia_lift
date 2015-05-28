@@ -23,6 +23,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *     "access" = "\Drupal\lift\Entity\LiftBlockAccessControlHandler",
  *     "list_builder" = "\Drupal\lift\Entity\LiftBlockListBuilder",
  *     "view_builder" = "\Drupal\lift\Entity\LiftBlockViewBuilder",
+ *     "views_data" = "\Drupal\lift\Entity\ListBlockViewsData",
  *     "storage" = "\Drupal\lift\Entity\LiftBlockStorage",
  *     "storage_schema" = "\Drupal\lift\Entity\LiftBlockStorageSchema",
  *     "form" = {
