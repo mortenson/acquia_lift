@@ -9,6 +9,7 @@ namespace Drupal\lift\Controller;
 
 use Drupal\Core\Entity\Controller\EntityViewController;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,6 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
  * Returns responses for Lift routes.
  */
 class LiftController extends EntityViewController {
+
+  use StringTranslationTrait;
 
   /**
    * {@inheritdoc}
@@ -40,6 +43,19 @@ class LiftController extends EntityViewController {
    */
   public function viewJson(EntityInterface $entity) {
     return new JsonResponse($entity->toArray());
+  }
+
+  /**
+   * Route title callback.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $lift_block
+   *   The Lift block entity.
+   *
+   * @return string
+   *   The title for the Lift block edit form.
+   */
+  public function editLiftBlockTitle(EntityInterface $lift_block) {
+    return $this->t('Edit %label Lift block', ['%label' => $lift_block->label()]);
   }
 
 }

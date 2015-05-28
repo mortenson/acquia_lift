@@ -54,5 +54,6 @@ entity.lift_block.edit_form:
   path: '/admin/structure/lift/block/{lift_block}'
   defaults:
     _entity_form: 'lift_block.edit'
+    _title_callback: '\Drupal\lift\Controller\LiftController::editLiftBlockTitle'
   requirements:
     _entity_access: 'lift_block.update'
