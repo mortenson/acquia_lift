@@ -11,7 +11,7 @@ use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * @todo.
+ * Provides a form for editing a Lift block.
  */
 class LiftBlockEditForm extends ContentEntityForm {
 

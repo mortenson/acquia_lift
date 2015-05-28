@@ -12,7 +12,7 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 
 /**
- * @todo.
+ * Provides a content entity that utilizes block plugins.
  *
  * @ContentEntityType(
  *   id = "lift_block",
@@ -23,7 +23,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *     "access" = "\Drupal\Core\Entity\EntityAccessControlHandler",
  *     "list_builder" = "\Drupal\lift\Entity\LiftBlockListBuilder",
  *     "view_builder" = "\Drupal\Core\Entity\EntityViewBuilder",
- *     "views_data" = "\Drupal\lift\Entity\ListBlockViewsData",
+ *     "views_data" = "\Drupal\lift\Entity\LiftBlockViewsData",
  *     "storage" = "\Drupal\Core\Entity\Sql\SqlContentEntityStorage",
  *     "storage_schema" = "\Drupal\Core\Entity\Sql\SqlContentEntityStorageSchema",
  *     "form" = {

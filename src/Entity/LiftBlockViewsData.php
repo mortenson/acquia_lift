@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\lift\Entity\ListBlockViewsData.
+ * Contains \Drupal\lift\Entity\LiftBlockViewsData.
  */
 
 namespace Drupal\lift\Entity;
@@ -10,9 +10,9 @@ namespace Drupal\lift\Entity;
 use Drupal\views\EntityViewsData;
 
 /**
- * @todo.
+ * Provides Views data for the Lift block entity type.
  */
-class ListBlockViewsData extends EntityViewsData {
+class LiftBlockViewsData extends EntityViewsData {
 
   /**
    * {@inheritdoc}

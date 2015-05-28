@@ -14,7 +14,7 @@ use Drupal\Core\TypedData\DataDefinition;
 use Drupal\Core\TypedData\MapDataDefinition;
 
 /**
- * @todo.
+ * Plugin implementation of the 'lift_blocks' field type.
  *
  * @FieldType(
  *   id = "lift_blocks",

@@ -12,7 +12,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityListBuilder;
 
 /**
- * @todo.
+ * Provides a list builder for Lift blocks.
  */
 class LiftBlockListBuilder extends EntityListBuilder {
 

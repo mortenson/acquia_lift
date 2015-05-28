@@ -14,7 +14,7 @@ use Drupal\views\ResultRow;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * @todo.
+ * Displays the human-readable version of the plugin ID.
  *
  * @ViewsField("lift_plugin_id")
  */
@@ -26,10 +26,16 @@ class PluginID extends FieldPluginBase implements ContainerFactoryPluginInterfac
   protected $pluginManager;
 
   /**
+   * Constructs a new PluginID.
+   *
    * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
    * @param string $plugin_id
+   *   The plugin ID for the plugin instance.
    * @param mixed $plugin_definition
+   *   The plugin implementation definition.
    * @param \Drupal\Core\Block\BlockManagerInterface $plugin_manager
+   *   The block plugin manager.
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, BlockManagerInterface $plugin_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);

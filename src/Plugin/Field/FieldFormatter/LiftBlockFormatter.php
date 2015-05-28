@@ -11,7 +11,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 
 /**
- * @todo.
+ * Provides a field formatter for a Lift block plugin.
  *
  * @FieldFormatter(
  *   id = "lift_blocks",
