@@ -17,7 +17,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * @todo.
+ * Provides a field widget for a Lift block plugin.
  *
  * @FieldWidget(
  *   id = "lift_blocks",
@@ -30,17 +30,27 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class LiftBlockWidget extends WidgetBase implements ContainerFactoryPluginInterface {
 
   /**
+   * The block plugin manager.
+   *
    * @var \Drupal\Core\Block\BlockManagerInterface
    */
   protected $pluginManager;
 
   /**
+   * Constructs a new LiftBlockWidget.
+   *
    * @param array $plugin_id
+   *   The plugin ID for the widget.
    * @param mixed $plugin_definition
+   *   The plugin implementation definition.
    * @param \Drupal\Core\Field\FieldDefinitionInterface $field_definition
+   *   The definition of the field to which the widget is associated.
    * @param array $settings
+   *   The widget settings.
    * @param array $third_party_settings
+   *   Any third party settings.
    * @param \Drupal\Core\Block\BlockManagerInterface $plugin_manager
+   *   The block plugin manager.
    */
   public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, array $third_party_settings, BlockManagerInterface $plugin_manager) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $third_party_settings);
@@ -75,40 +85,41 @@ class LiftBlockWidget extends WidgetBase implements ContainerFactoryPluginInterf
       $category = SafeMarkup::checkPlain($plugin_definition['category']);
       $options[$category][$plugin_id] = $plugin_definition['admin_label'];
     }
-    $element['choices'] = [
+    $element['plugin_id'] = [
       '#title' => $this->t('Block-to-be'),
       '#type' => 'select',
       '#options' => $options,
       '#default_value' => $plugin_instance->getPluginId(),
       '#ajax' => [
         'callback' => [$this, 'updateBlockPluginChoice'],
-        'wrapper' => 'edit-config-type-wrapper',
+        'wrapper' => 'edit-plugin-configuration-wrapper',
         'method' => 'html',
       ],
     ];
 
-    $element['block_configuration'] = $plugin_instance->buildConfigurationForm([], $form_state);
-    $element['block_configuration']['#prefix'] = '<div id="edit-config-type-wrapper">';
-    $element['block_configuration']['#suffix'] = '</div>';
+    $element['plugin_configuration'] = $plugin_instance->buildConfigurationForm([], $form_state);
+    $element['plugin_configuration']['#prefix'] = '<div id="edit-plugin-configuration-wrapper">';
+    $element['plugin_configuration']['#suffix'] = '</div>';
     return $element;
   }
 
   /**
-   * @todo.
+   * Switches the block plugin configuration form.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   *
+   * @return array
+   *   The configuration form for the new block plugin.
    */
-  public function updateBlockPluginChoice($form, FormStateInterface $form_state) {
+  public function updateBlockPluginChoice(array $form, FormStateInterface $form_state) {
+    // Retrieve the new value for the plugin ID.
     $value = $form_state->getValue($form_state->getTriggeringElement()['#parents']);
     return $this->pluginManager
       ->createInstance($value)
       ->buildConfigurationForm([], $form_state);
   }
 
-  public function massageFormValues(array $values, array $form, FormStateInterface $form_state) {
-    $data = [];
-    $data[] = [
-      'plugin_id' => $values[0]['choices'],
-      'plugin_configuration' => $values[0]['block_configuration'],
-    ];
-    return $data;
-  }
 }
