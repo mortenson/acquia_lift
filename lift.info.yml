@@ -3,3 +3,5 @@ name: Lift
 description: '@todo.'
 version: VERSION
 core: 8.x
+dependencies:
+  - payment

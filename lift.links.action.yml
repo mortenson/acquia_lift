@@ -1,0 +1,5 @@
+entity.lift_block.add_form:
+  route_name: entity.lift_block.add_form
+  title: 'Add Lift block'
+  appears_on:
+    - 'entity.lift_block.collection'

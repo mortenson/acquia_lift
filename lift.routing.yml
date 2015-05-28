@@ -23,3 +23,29 @@ lift.view_entity_by_id.json:
   requirements:
     _entity_access: entity.view
     _format: 'json'
+
+
+### Admin UI
+
+entity.lift_block.collection:
+  path: '/admin/structure/lift/block'
+  defaults:
+    _entity_list: 'lift_block'
+    _title: 'Lift blocks'
+  requirements:
+    _access: 'TRUE'
+
+entity.lift_block.add_form:
+  path: '/admin/structure/lift/block/add'
+  defaults:
+    _entity_form: 'lift_block.add'
+    _title: 'Add new Lift block'
+  requirements:
+    _entity_create_access: lift_block
+
+entity.lift_block.edit_form:
+  path: '/admin/structure/lift/block/{lift_block}'
+  defaults:
+    _entity_form: 'lift_block.edit'
+  requirements:
+    _entity_access: 'lift_block.update'
