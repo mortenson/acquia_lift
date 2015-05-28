@@ -67,7 +67,9 @@ class LiftBlockWidget extends WidgetBase implements ContainerFactoryPluginInterf
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
     $definitions = $this->pluginManager->getDefinitions();
     $sorted_definitions = $this->pluginManager->getSortedDefinitions($definitions);
-    $default_plugin_id = $items->plugin_id ?: key($sorted_definitions);
+
+    $plugin_instance = $items->get($delta)->getContainedPluginInstance() ?: $this->pluginManager->createInstance(key($sorted_definitions));
+
     $options = [];
     foreach ($sorted_definitions as $plugin_id => $plugin_definition) {
       $category = SafeMarkup::checkPlain($plugin_definition['category']);
@@ -77,15 +79,15 @@ class LiftBlockWidget extends WidgetBase implements ContainerFactoryPluginInterf
       '#title' => $this->t('Block-to-be'),
       '#type' => 'select',
       '#options' => $options,
-      '#default_value' => $default_plugin_id,
+      '#default_value' => $plugin_instance->getPluginId(),
       '#ajax' => [
         'callback' => [$this, 'updateBlockPluginChoice'],
         'wrapper' => 'edit-config-type-wrapper',
         'method' => 'html',
       ],
     ];
-    $default_plugin = $this->pluginManager->createInstance($default_plugin_id);
-    $element['block_configuration'] = $default_plugin->buildConfigurationForm([], $form_state);
+
+    $element['block_configuration'] = $plugin_instance->buildConfigurationForm([], $form_state);
     $element['block_configuration']['#prefix'] = '<div id="edit-config-type-wrapper">';
     $element['block_configuration']['#suffix'] = '</div>';
     return $element;
