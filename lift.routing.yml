@@ -27,6 +27,13 @@ lift.view_entity_by_id.json:
 
 ### Admin UI
 
+entity.lift_block.canonical:
+  path: '/lift_block/{lift_block}'
+  defaults:
+    _entity_view: 'lift_block'
+  requirements:
+    _entity_access: 'lift_block.view'
+
 entity.lift_block.collection:
   path: '/admin/structure/lift/block'
   defaults:

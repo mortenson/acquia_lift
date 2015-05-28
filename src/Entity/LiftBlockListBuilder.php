@@ -30,7 +30,12 @@ class LiftBlockListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    $row['label'] = $this->getLabel($entity);
+    $row['label']['data'] = [
+      '#type' => 'link',
+      '#url' => $entity->urlInfo(),
+      '#title' => $entity->label(),
+    ];
+    //$row['label'] = $this->getLabel($entity);
     $plugin_manager = \Drupal::service('plugin.manager.block');
     $definition = $plugin_manager->getDefinition($entity->block->plugin_id);
     $row['plugin_id'] = SafeMarkup::checkPlain($definition['admin_label']);

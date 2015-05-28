@@ -22,6 +22,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *   handlers = {
  *     "access" = "\Drupal\lift\Entity\LiftBlockAccessControlHandler",
  *     "list_builder" = "\Drupal\lift\Entity\LiftBlockListBuilder",
+ *     "view_builder" = "\Drupal\lift\Entity\LiftBlockViewBuilder",
  *     "storage" = "\Drupal\lift\Entity\LiftBlockStorage",
  *     "storage_schema" = "\Drupal\lift\Entity\LiftBlockStorageSchema",
  *     "form" = {
@@ -36,6 +37,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *   },
  *   field_ui_base_route = "entity.lift_block.collection",
  *   links = {
+ *     "canonical" = "/lift_block/{lift_block}",
  *     "add-form" = "/admin/structure/lift/block",
  *     "edit-form" = "/admin/structure/lift/block/{lift_block}",
  *   }
@@ -100,7 +102,7 @@ class LiftBlock extends ContentEntityBase {
       ))
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('view', array(
-        'type' => 'payment_plugin_label',
+        'type' => 'lift_blocks',
         'weight' => 0,
       ))
       ->setDisplayConfigurable('view', TRUE);

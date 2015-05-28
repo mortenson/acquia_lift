@@ -14,7 +14,6 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -29,6 +28,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class LiftBlockWidget extends WidgetBase implements ContainerFactoryPluginInterface {
+
+  /**
+   * @var \Drupal\Core\Block\BlockManagerInterface
+   */
+  protected $pluginManager;
 
   /**
    * @param array $plugin_id
