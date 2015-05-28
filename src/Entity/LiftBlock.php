@@ -22,10 +22,10 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *   handlers = {
  *     "access" = "\Drupal\Core\Entity\EntityAccessControlHandler",
  *     "list_builder" = "\Drupal\lift\Entity\LiftBlockListBuilder",
- *     "view_builder" = "\Drupal\lift\Entity\LiftBlockViewBuilder",
+ *     "view_builder" = "\Drupal\Core\Entity\EntityViewBuilder",
  *     "views_data" = "\Drupal\lift\Entity\ListBlockViewsData",
- *     "storage" = "\Drupal\lift\Entity\LiftBlockStorage",
- *     "storage_schema" = "\Drupal\lift\Entity\LiftBlockStorageSchema",
+ *     "storage" = "\Drupal\Core\Entity\Sql\SqlContentEntityStorage",
+ *     "storage_schema" = "\Drupal\Core\Entity\Sql\SqlContentEntityStorageSchema",
  *     "form" = {
  *       "add" = "\Drupal\lift\Entity\Form\LiftBlockAddForm",
  *       "edit" = "\Drupal\lift\Entity\Form\LiftBlockEditForm",
