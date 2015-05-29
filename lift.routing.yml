@@ -1,7 +1,7 @@
-lift.view_entity_by_id:
-  path: '/lift/{entity_type}/{entity}/{view_mode}/{langcode}'
+lift.entity_render:
+  path: '/lift/render/{entity_type}/{entity}/{view_mode}/{langcode}'
   defaults:
-    _controller: '\Drupal\lift\Controller\LiftController::view'
+    _controller: '\Drupal\lift\Controller\LiftController::getRenderedEntity'
     view_mode: full
     langcode: null
   options:
@@ -10,12 +10,12 @@ lift.view_entity_by_id:
         type: entity:{entity_type}
   requirements:
     _entity_access: entity.view
-    _format: 'html'
+    _format: 'json'
 
-lift.view_entity_by_id.json:
-  path: '/lift/{entity_type}/{entity}'
+lift.entity_data:
+  path: '/lift/data/{entity_type}/{entity}'
   defaults:
-    _controller: '\Drupal\lift\Controller\LiftController::viewJson'
+    _controller: '\Drupal\lift\Controller\LiftController::getEntityData'
   options:
     parameters:
       entity:

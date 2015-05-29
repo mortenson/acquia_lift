@@ -11,7 +11,6 @@ use Drupal\Core\Entity\Controller\EntityViewController;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Returns responses for Lift routes.
@@ -21,15 +20,31 @@ class LiftController extends EntityViewController {
   use StringTranslationTrait;
 
   /**
-   * {@inheritdoc}
+   * Returns a JSON representing the rendered entity.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity being rendered.
+   * @param string $view_mode
+   *   The view mode that should be used to display the entity.
+   * @param string $langcode
+   *   For which language the entity should be rendered.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   A JSON representation of the rendered entity, with the following keys:
+   *   - body: The markup of the entity itself.
+   *   - styles: The markup for any CSS associated with this entity.
+   *   - scripts: The markup for any JS belonging in the <head> element that is
+   *     associated with this entity.
+   *   - scripts_bottom: The markup for any JS belonging in the bottom of the
+   *     <body> element that is associated with this entity.
+   *   - head: The markup for any other elements to be in <head>.
    */
-  public function view(EntityInterface $entity, $view_mode = 'full', $langcode = NULL) {
-    $render_array = parent::view($entity, $view_mode, $langcode);
+  public function getRenderedEntity(EntityInterface $entity, $view_mode, $langcode) {
+    $render_array = $this->view($entity, $view_mode, $langcode);
 
-    // After generating the render array for the entity, render it to be the
-    // root of the page and return it as a response to bypass the rest of
-    // Drupal's theming.
-    return new Response($this->renderer->renderRoot($render_array));
+    $result['body'] = $this->renderer->render($render_array);
+
+    return new JsonResponse($result);
   }
 
   /**
@@ -41,7 +56,7 @@ class LiftController extends EntityViewController {
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   A JSON representation of the entity.
    */
-  public function viewJson(EntityInterface $entity) {
+  public function getEntityData(EntityInterface $entity) {
     return new JsonResponse($entity->toArray());
   }
 
