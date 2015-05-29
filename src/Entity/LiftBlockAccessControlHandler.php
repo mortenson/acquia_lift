@@ -26,6 +26,8 @@ class LiftBlockAccessControlHandler extends EntityAccessControlHandler {
         ->cachePerPermissions()
         ->cacheUntilEntityChanges($entity);
     }
+
+    return parent::checkAccess($entity, $operation, $langcode, $account);
   }
 
 }
