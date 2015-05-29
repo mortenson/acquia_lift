@@ -1,0 +1,4 @@
+entity.lift_block.collection:
+  title: List
+  route_name: entity.lift_block.collection
+  base_route: entity.lift_block.collection
