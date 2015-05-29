@@ -1,0 +1,5 @@
+entity.lift_block.collection:
+  route_name: entity.lift_block.collection
+  parent: system.admin_structure
+  title: 'Lift blocks'
+  description: 'Configure what Lift blocks.'
