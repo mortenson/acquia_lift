@@ -10,6 +10,7 @@ namespace Drupal\lift\Entity;
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\lift\LiftBlockInterface;
 
 /**
  * Provides a content entity that utilizes block plugins.
@@ -45,7 +46,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *   }
  * )
  */
-class LiftBlock extends ContentEntityBase {
+class LiftBlock extends ContentEntityBase implements LiftBlockInterface {
 
   /**
    * {@inheritdoc}
