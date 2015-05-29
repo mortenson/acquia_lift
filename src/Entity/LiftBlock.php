@@ -21,7 +21,7 @@ use Drupal\lift\LiftBlockInterface;
  *   base_table = "lift_block",
  *   bundle_label = @Translation("Lift block type"),
  *   handlers = {
- *     "access" = "\Drupal\Core\Entity\EntityAccessControlHandler",
+ *     "access" = "\Drupal\lift\Entity\LiftBlockAccessControlHandler",
  *     "list_builder" = "\Drupal\lift\Entity\LiftBlockListBuilder",
  *     "view_builder" = "\Drupal\Core\Entity\EntityViewBuilder",
  *     "views_data" = "\Drupal\lift\Entity\LiftBlockViewsData",
