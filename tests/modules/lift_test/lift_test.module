@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Contains hook implementations for the Lift test module.
+ */
+
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\lift\Entity\LiftBlock;
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function lift_test_lift_block_view(array &$build, LiftBlock $lift_block, EntityViewDisplayInterface $display, $view_mode, $langcode) {
+  $build['#attached']['library'][] = 'node/drupal.node.admin';
+}
