@@ -30,6 +30,7 @@ use Drupal\lift\LiftBlockInterface;
  *     "form" = {
  *       "add" = "\Drupal\lift\Entity\Form\LiftBlockAddForm",
  *       "edit" = "\Drupal\lift\Entity\Form\LiftBlockEditForm",
+ *       "delete" = "\Drupal\lift\Entity\Form\LiftBlockDeleteForm",
  *     },
  *   },
  *   admin_permission = "administer lift",
@@ -43,6 +44,7 @@ use Drupal\lift\LiftBlockInterface;
  *     "canonical" = "/lift_block/{lift_block}",
  *     "add-form" = "/admin/structure/lift/block",
  *     "edit-form" = "/admin/structure/lift/block/{lift_block}",
+ *     "delete-form" = "/admin/structure/lift/block/{lift_block}/delete",
  *   }
  * )
  */

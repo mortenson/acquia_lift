@@ -57,3 +57,11 @@ entity.lift_block.edit_form:
     _title_callback: '\Drupal\lift\Controller\LiftController::editLiftBlockTitle'
   requirements:
     _entity_access: 'lift_block.update'
+
+entity.lift_block.delete_form:
+  path: '/admin/structure/lift/block/{lift_block}/delete'
+  defaults:
+    _entity_form: 'lift_block.delete'
+    _title: 'Delete Lift block'
+  requirements:
+    _entity_access: 'lift_block.delete'
