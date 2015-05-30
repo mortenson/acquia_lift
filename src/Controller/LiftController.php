@@ -61,8 +61,8 @@ class LiftController extends EntityViewController {
    *   The JS collection renderer.
    */
   public function __construct(EntityManagerInterface $entity_manager, RendererInterface $renderer, AssetResolverInterface $asset_resolver, AssetCollectionRendererInterface $css_collection_renderer, AssetCollectionRendererInterface $js_collection_renderer) {
-    $this->entityManager = $entity_manager;
-    $this->renderer = $renderer;
+    parent::__construct($entity_manager, $renderer);
+
     $this->assetResolver = $asset_resolver;
     $this->cssCollectionRenderer = $css_collection_renderer;
     $this->jsCollectionRenderer = $js_collection_renderer;
