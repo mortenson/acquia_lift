@@ -3,11 +3,45 @@ php:
 - 5.4
 before_install:
 - wget https://raw.githubusercontent.com/jonkemp/qunit-phantomjs-runner/master/runner.js
+install:
+# Install Drupal.org drush.
+- drush dl -y drupalorg_drush-7.x-1.x-dev --destination=$HOME/.drush
+- drush cc drush
+# Build the site
+- mv acquia_lift.make.dev.example acquia_lift.dev.make
+- drush make acquia_lift.dev.make
+# Build Behat dependencies
+- cd behat-tests
+- composer install
+# Setup display for Selenium
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+- sleep 5
+# Get Selenium
+- cd ..
+- wget --no-verbose http://selenium-release.storage.googleapis.com/2.45/selenium-server-standalone-2.45.0.jar
+- java -jar selenium-server-standalone-2.45.0.jar -Dwebdriver.firefox.bin="/opt/selenium/Firefox.app/Contents/MacOS/firefox-bin" &
+# Disable sendmail
+- echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+before_script:
+# Do the site install
+- drush si lift --account-name=admin --account-pass=admin --account-mail=admin@test.com --site-mail=noreply@test.com --site-name="lift" --yes
+# Enable the required modules
+- drush en acquia_lift -y
+- drush dis overlay -y
+# Configure lift service
+- drush php-eval "variable_set('acquia_lift_account_info', array('owner_code' => 'owner_eheBBPJME', 'api_key' => 'api-aiyxahhDMKkWmdJZkpVrHbZF', 'admin_key' => 'admin-VNVOIkwpUwnTMykRBICvpFxQjq', 'api_url' => 'api-us1.lift.acquia.com'));"
+# Configure behat yml file
+- cd behat-tests
+- cp behat.template.yml behat.yml
+- sed -i -- 's/localurl/localhost:8080/lift/g' behat.yml
 script:
 - phantomjs runner.js qunit/core_personalization.html
 - phantomjs runner.js acquia_lift_profiles/qunit/test.html
 - phantomjs runner.js qunit/acquia_lift_target.html
 - phantomjs runner.js qunit/administration.html
+- cd behat-tests
+- ./bin/behat
 notifications:
   slack:
     secure: mpS7oDoOBsl7KlQUY9loYd1gUiozp4D8kc3vl0nVkm8N8SpAR0RYplPHY/5Jtesbl73kWG4vV7UURNct0cc+szm0eLVbCFcS6vq6evzPKdHzl0U2YiFCLsJItDXBYhDDb5bY4yZgCY8zUBmnOM/S3NysxMMcNmU/DaqUvhZWnGU=
