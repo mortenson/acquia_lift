@@ -4,12 +4,16 @@ php:
 before_install:
 - wget https://raw.githubusercontent.com/jonkemp/qunit-phantomjs-runner/master/runner.js
 install:
-# Install Drupal.org drush.
-- drush dl -y drupalorg_drush-7.x-1.x-dev --destination=$HOME/.drush
-- drush cc drush
+# Install drush
+- git clone git@github.com:drush-ops/drush.git drush
+- cd drush
+- php ../composer/bin/composer install
+- cd ..
+- cd ..
+- chmod +x drush/drush
 # Build the site
 - mv acquia_lift.make.dev.example acquia_lift.dev.make
-- drush make acquia_lift.dev.make
+- drush/drush make acquia_lift.dev.make
 # Build Behat dependencies
 - cd behat-tests
 - composer install
@@ -25,12 +29,12 @@ install:
 - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 before_script:
 # Do the site install
-- drush si lift --account-name=admin --account-pass=admin --account-mail=admin@test.com --site-mail=noreply@test.com --site-name="lift" --yes
+- drush/drush si lift --account-name=admin --account-pass=admin --account-mail=admin@test.com --site-mail=noreply@test.com --site-name="lift" --yes
 # Enable the required modules
-- drush en acquia_lift -y
-- drush dis overlay -y
+- drush/drush en acquia_lift -y
+- drush/drush dis overlay -y
 # Configure lift service
-- drush php-eval "variable_set('acquia_lift_account_info', array('owner_code' => 'owner_eheBBPJME', 'api_key' => 'api-aiyxahhDMKkWmdJZkpVrHbZF', 'admin_key' => 'admin-VNVOIkwpUwnTMykRBICvpFxQjq', 'api_url' => 'api-us1.lift.acquia.com'));"
+- drush/drush php-eval "variable_set('acquia_lift_account_info', array('owner_code' => 'owner_eheBBPJME', 'api_key' => 'api-aiyxahhDMKkWmdJZkpVrHbZF', 'admin_key' => 'admin-VNVOIkwpUwnTMykRBICvpFxQjq', 'api_url' => 'api-us1.lift.acquia.com'));"
 # Configure behat yml file
 - cd behat-tests
 - cp behat.template.yml behat.yml
