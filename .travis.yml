@@ -39,14 +39,15 @@ before_script:
 - drush php-eval "variable_set('acquia_lift_account_info', array('owner_code' => 'owner_eheBBPJME', 'api_key' => 'api-aiyxahhDMKkWmdJZkpVrHbZF', 'admin_key' => 'admin-VNVOIkwpUwnTMykRBICvpFxQjq', 'api_url' => 'api-us1.lift.acquia.com'));"
 # Configure behat yml file
 - cd behat-tests
-- cp behat.template.yml behat.yml
+- mv behat.template.yml behat.yml
 - sed -i -- 's#localurl#localhost:8080/lift#g' behat.yml
+- sed -i -- 's#/Path/to/Drual/Webroot#/home/travis/build/acquia/drupal#g' behat.yml
 - cd ..
 # Make the Travis tests repos agnostic by injecting drupal_root with BEHAT_PARAMS
 - BUILD_OWNER=`dirname $TRAVIS_BUILD_DIR`
 - echo $BUILD_OWNER
 #- export BEHAT_PARAMS='{"extensions" : {"Drupal\\DrupalExtension" : {"drupal_root" : "/home/travis/build/acquia/drupal"}}}'
-- export BEHAT_PARAMS='{"extensions": {"Drupal\\DrupalExtension": {"drupal": {"drupal_root": "/home/travis/build/acquia/drupal"}}}}'
+#- export BEHAT_PARAMS='{"extensions": {"Drupal\\DrupalExtension": {"drupal": {"drupal_root": "/home/travis/build/acquia/drupal"}}}}'
 script:
 - phantomjs runner.js qunit/core_personalization.html
 - phantomjs runner.js acquia_lift_profiles/qunit/test.html
