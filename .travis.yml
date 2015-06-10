@@ -9,7 +9,7 @@ install:
 - composer global require --no-interaction --prefer-source drush/drush:6.*@dev
 # Build the site
 - mv acquia_lift.make.dev.example acquia_lift.dev.make
-- drush make acquia_lift.dev.make
+- drush make acquia_lift.dev.make -y
 # Build Behat dependencies
 - cd behat-tests
 - composer install
