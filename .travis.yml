@@ -1,6 +1,10 @@
 language: php
 php:
 - 5.4
+mysql:
+  database: lift
+  username: root
+  encoding: utf8
 before_install:
 - wget https://raw.githubusercontent.com/jonkemp/qunit-phantomjs-runner/master/runner.js
 install:
@@ -36,7 +40,10 @@ before_script:
 # Configure behat yml file
 - cd behat-tests
 - cp behat.template.yml behat.yml
-- sed -i -- 's/localurl/localhost:8080/lift/g' behat.yml
+- sed -i -- 's#localurl#localhost:8080/lift#g' behat.yml
+# Make the Travis tests repos agnostic by injecting drupal_root with BEHAT_PARAMS
+- BUILD_OWNER=`dirname $TRAVIS_BUILD_DIR`
+- export BEHAT_PARAMS="extensions[Drupal\\DrupalExtension\\Extension][drupal][drupal_root]=$BUILD_OWNER/drupal"
 script:
 - phantomjs runner.js qunit/core_personalization.html
 - phantomjs runner.js acquia_lift_profiles/qunit/test.html
