@@ -18,6 +18,7 @@ install:
 - ls
 - drush make acquia_lift.dev.make -y
 - ls
+- pwd
 # Build Behat dependencies
 - cd behat-tests
 - composer install
