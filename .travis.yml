@@ -44,7 +44,7 @@ before_script:
 - cd behat-tests
 - mv behat.template.yml behat.yml
 - sed -i -- 's#localurl#localhost:8080/lift#g' behat.yml
-- sed -i -- 's#/Path/to/Drual/Webroot#/home/travis/build/acquia/drupal#g' behat.yml
+- sed -i -- 's#/Path/to/Drual/Webroot#/home/travis/build/acquia/acquia_lift#g' behat.yml
 - cd ..
 # Make the Travis tests repos agnostic by injecting drupal_root with BEHAT_PARAMS
 - BUILD_OWNER=`dirname $TRAVIS_BUILD_DIR`
