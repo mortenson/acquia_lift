@@ -136,7 +136,7 @@ Rickshaw.Graph.ClickDetail = Rickshaw.Class.create(Rickshaw.Graph.HoverDetail, {
         data = this.graph.rawData.groups,
         time = new Date(x * 1000),
         months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        humanDate = months[time.getUTCMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear()
+        humanDate = months[time.getUTCMonth()] + ' ' + time.getUTCDate() + ', ' + time.getFullYear()
         head = function () {
           var date = '<th>' + humanDate + '</th>',
               variations = '';
@@ -795,11 +795,12 @@ Rickshaw.Graph.TableLegend = Rickshaw.Class.create(Rickshaw.Graph.Legend, {
       var element = this.element,
           graph = this.graph,
           time = new Rickshaw.Fixtures.Time(),
-          unit = time.units[3],
+          unit_month = time.units[2],
+          unit_date = time.units[4],
           values = $(element).slider('option', 'values'),
           text = [
-            unit.formatter(new Date(values[0] * 1000)),
-            unit.formatter(new Date(values[1] * 1000))
+            unit_month.formatter(new Date(values[0] * 1000)) + ' ' + unit_date.formatter(new Date(values[0] * 1000)),
+            unit_month.formatter(new Date(values[1] * 1000)) + unit_date.formatter(new Date(values[1] * 1000))
           ],
           domain = graph.dataDomain(),
           $handles = $(element).children('.ui-slider-handle');
@@ -814,11 +815,13 @@ Rickshaw.Graph.TableLegend = Rickshaw.Class.create(Rickshaw.Graph.Legend, {
 
       if (graph.window.xMin == null) {
         values[0] = domain[0];
-        text[0] = unit.formatter(new Date(values[0] * 1000));
+        text[0] = unit_month.formatter(new Date(values[0] * 1000)) + ' ' +
+        unit_date.formatter(new Date(values[0] * 1000));
       }
       if (graph.window.xMax == null) {
         values[1] = domain[1];
-        text[1] = unit.formatter(new Date(values[1] * 1000));
+        text[1] = unit_month.formatter(new Date(values[1] * 1000)) + ' ' +
+        unit_date.formatter(new Date(values[1] * 1000));
       }
 
       $(element).slider('option', 'values', values);
