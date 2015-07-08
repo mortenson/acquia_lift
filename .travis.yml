@@ -7,64 +7,53 @@ mysql:
   encoding: utf8
 addons:
   artifacts: true
-env:
-  secure:
-- "F2p/qQhQnYf0Nym/xWDZ/5TvylTdHMuwq9dlzZixkLzDAUAqnnutK9UOG9Tm31OdrBbRf6/MaTW+Vfdd3HBabFvXEubFo1VXEnUJ0ujbNscfVjRbbpl7qMXvi3hc8vI42J+bwisEPj1RIP2ej6xh/U97UK0PIWDndxu4ra5HMJY="
-- "MfYhUfr9RGiDJtNWvi1FZK29CBJsTWCzLfmUbgUoYjtpbYfprQkfhM6a5Ow1LS17s/ycKilvOvyK6mFgjbZ9q/t7Dlq1GW2skGmZH1/yUT9vvoYB4ZEdFPjkOwG2o3ttfPTJ20NwJ0xFiDLmUYhN+DKvFurjEsPj9AHMdER9m30="
-- "J3ZxlsGqTq46pF0MTSnIHsOpj7R3f1zIvhu7bZdfC4TmUH3wLNfrWgkfB9WKj9ecpvOl2KChbTPfZj3efg/aZgNweVawHmEYSjRiea5N0LbKmk82N52AZWCGAK+zDTIZHB5jgG/CdYgLB6KUu0XFlkS/Y5QHUgmqeG8PqXa9tuU="
 before_install:
 - wget https://raw.githubusercontent.com/jonkemp/qunit-phantomjs-runner/master/runner.js
 install:
-# Create a database for our Drupal site.
-- "mysql -e 'create database lift;'"
-# Install the latest Drush 6.
+- mysql -e 'create database lift;'
 - export PATH="$HOME/.composer/vendor/bin:$PATH"
 - composer global require --no-interaction --prefer-source drush/drush:6.*@dev
-# Build the site
 - mv acquia_lift.make.dev.example acquia_lift.dev.make
 - ls
 - drush make acquia_lift.dev.make -y
 - ls
 - pwd
-# Build Behat dependencies
 - cd behat-tests
 - composer install
-# Setup display for Selenium
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
 - sleep 5
-# Get Selenium
 - cd ..
 - wget --no-verbose http://selenium-release.storage.googleapis.com/2.45/selenium-server-standalone-2.45.0.jar
 - java -jar selenium-server-standalone-2.45.0.jar&
-# Disable sendmail
 - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 before_script:
-# Do the site install
-- drush si --db-url=mysql://root:@127.0.0.1/lift --account-name=admin --account-pass=admin --account-mail=admin@test.com --site-mail=noreply@test.com --site-name="lift" --yes
-# Enable the required modules
+- drush si --db-url=mysql://root:@127.0.0.1/lift --account-name=admin --account-pass=admin
+  --account-mail=admin@test.com --site-mail=noreply@test.com --site-name="lift" --yes
 - drush en acquia_lift -y
 - drush dis overlay -y
-# Configure lift service
-- drush php-eval "variable_set('acquia_lift_account_info', array('owner_code' => 'owner_eheBBPJME', 'api_key' => 'api-aiyxahhDMKkWmdJZkpVrHbZF', 'admin_key' => 'admin-VNVOIkwpUwnTMykRBICvpFxQjq', 'api_url' => 'api-us1.lift.acquia.com'));"
-# Configure behat yml file
+- drush php-eval "variable_set('acquia_lift_account_info', array('owner_code' => 'owner_eheBBPJME',
+  'api_key' => 'api-aiyxahhDMKkWmdJZkpVrHbZF', 'admin_key' => 'admin-VNVOIkwpUwnTMykRBICvpFxQjq',
+  'api_url' => 'api-us1.lift.acquia.com'));"
 - cd behat-tests
 - mv behat.template.yml behat.yml
 - sed -i -- 's#localurl#localhost:8080/lift#g' behat.yml
 - sed -i -- 's#/Path/to/Drual/Webroot#/home/travis/build/acquia/acquia_lift#g' behat.yml
 - cd ..
-# Make the Travis tests repos agnostic by injecting drupal_root with BEHAT_PARAMS
 - BUILD_OWNER=`dirname $TRAVIS_BUILD_DIR`
 - echo $BUILD_OWNER
-#- export BEHAT_PARAMS='{"extensions" : {"Drupal\\DrupalExtension" : {"drupal_root" : "/home/travis/build/acquia/drupal"}}}'
-#- export BEHAT_PARAMS='{"extensions": {"Drupal\\DrupalExtension": {"drupal": {"drupal_root": "/home/travis/build/acquia/drupal"}}}}'
 script:
 - phantomjs runner.js qunit/core_personalization.html
 - phantomjs runner.js acquia_lift_profiles/qunit/test.html
 - phantomjs runner.js qunit/acquia_lift_target.html
 - phantomjs runner.js qunit/administration.html
 - cd behat-tests
-- ./bin/behat
+- "./bin/behat"
 notifications:
   slack:
     secure: mpS7oDoOBsl7KlQUY9loYd1gUiozp4D8kc3vl0nVkm8N8SpAR0RYplPHY/5Jtesbl73kWG4vV7UURNct0cc+szm0eLVbCFcS6vq6evzPKdHzl0U2YiFCLsJItDXBYhDDb5bY4yZgCY8zUBmnOM/S3NysxMMcNmU/DaqUvhZWnGU=
+env:
+  global:
+  - secure: kIUn8ve9kUZewkspipjbi8HGJaBDD7dQzoiArJkaMX89iLLtKjR6McAYi4XU93uqSqfgvrAE2x8bGjD656w8cZtfwQqpo7R7IzzzdHPAAaW0U0lBIub5ovFnZeY+VbEnKZpl0tl4t3SdMTMrIEhVzhxYx9Iz7S6SScvGi+5rN3c=
+  - secure: FwSaG/+UFx7t0ydMCxk57wLu79tPN49LQkqH/oYVKiD2HirF3uqlpIaVKnT7zeQAfMPXA7gTuB54hkKIHtOlxharXZurcWoHRDid6u5ZZj5d/enIoplX1f4yn6EKBRK6HL98V+nQPYX0vjcM9JnPIbuVoj0013jA4x23Dba3eGI=
+  - secure: cKmr4fguH2te2n9PaKBFzaDiSvRiy/7OvfpTMPvYOTeW0omNsEEBJypIJQtDeN1ydDRzNkuviFNNzEaXbdLYYyY66LACQyI3vR7BbrYp6lVZDunyKFB6zyXWmIgPM4xSgUz0gnzGI7D6NPbwRnQfRJ06M07uzA4HK5Q//WJkbhs=
