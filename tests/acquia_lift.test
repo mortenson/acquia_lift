@@ -3775,7 +3775,7 @@ class AcquiaLiftWebTestCampaignWizardReview extends AcquiaLiftWebTestCampaignWiz
     ));
     $this->resetAll();
 
-    // Start the agent and confirm the settings are propogated.
+    // Start the agent and confirm the settings are propagated.
     $this->drupalPost('admin/structure/personalize/manage/' . $agent->machine_name . '/review', array(), $this->getButton('wizard_start'));
     $this->resetAll();
 
@@ -3978,6 +3978,8 @@ class AcquiaLiftWebTestCampaignWizardReview extends AcquiaLiftWebTestCampaignWiz
     $this->drupalGet("admin/structure/personalize/manage/$machine_name/review");
     $this->drupalPost(NULL, array(), $this->getButton('wizard_start'));
 
+    $this->assertText(t('Congratulations! You have started your personalization.'));
+
     // Verify that the correct messaging is shown on all campaign wizard pages.
     foreach ($campaign_pages as $page) {
       $this->drupalGet($page);
@@ -3993,6 +3995,8 @@ class AcquiaLiftWebTestCampaignWizardReview extends AcquiaLiftWebTestCampaignWiz
 
     // Pause the campaign and verify that messaging is removed.
     $this->drupalPost(NULL, array(), t('Pause'));
+    $this->assertNoText(t('Congratulations! You have started your personalization.'));
+
     foreach ($campaign_pages as $page) {
       $this->drupalGet($page);
       $this->assertNoText($message_running);
@@ -4036,6 +4040,9 @@ class AcquiaLiftWebTestCampaignWizardReview extends AcquiaLiftWebTestCampaignWiz
       '@start_date' => _personalize_campaign_wizard_date($start_date),
     ));
     $this->drupalPost(NULL, array(), $button_text);
+    $this->assertText(t('Congratulations!  You have scheduled your personalization to start on @date', array(
+      '@date' => _personalize_campaign_wizard_date($start_date),
+    )));
 
     // Verify that the correct messaging is shown on all campaign wizard pages.
     foreach ($campaign_pages as $page) {
@@ -4055,6 +4062,7 @@ class AcquiaLiftWebTestCampaignWizardReview extends AcquiaLiftWebTestCampaignWiz
     $this->resetAll();
     foreach ($campaign_pages as $page) {
       $this->drupalGet($page);
+      $this->assertNoText('Congratulations!');
       $this->assertNoText($message_running);
       $this->assertNoText($message_scheduled);
       $this->assertText($message_completed);
