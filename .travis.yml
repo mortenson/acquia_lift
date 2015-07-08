@@ -51,12 +51,12 @@ script:
 - "./bin/behat"
 - cd ..
 - cp -r /tmp tmp
+- ls tmp/
 notifications:
   slack:
     secure: mpS7oDoOBsl7KlQUY9loYd1gUiozp4D8kc3vl0nVkm8N8SpAR0RYplPHY/5Jtesbl73kWG4vV7UURNct0cc+szm0eLVbCFcS6vq6evzPKdHzl0U2YiFCLsJItDXBYhDDb5bY4yZgCY8zUBmnOM/S3NysxMMcNmU/DaqUvhZWnGU=
 env:
   global:
-  - ARTIFACTS_PATHS=/tmp
   - secure: Y+NsZl3WrFAMWQXa3/6h1idEzbSEnfie/2j0oH94nUm+egui3MJJcTuHNv8LbIdBqOPiZFqIgQLgSkE0SSgsjEd4TJVak3LqRgsk8TpjzDwg1UkDPVfSZxrMLxBo53PCg/hBnhOc79/MOATQrHjSFOn3uT4cpD9xcg2jYXaNgic=
   - secure: DxpYLDyaPcmri/xhdo8y4UEh8W6zce3kghSXqGCSatbo8PWmleDztOe/oSwVkzp15Kh+Js7i0OkZAUx+EfMjbz4A3ftI3zryffk+P0uqrR4qZ4BJEN9hpNdX3Ts5lzisY+TiGNPaG2daokUlIqSNUIzOK+t6Hr7bkXEG1Zb92nI=
   - secure: aG9IKrX6Jak4dirQJ4+uu9qAXBI4NI3/2PO/bN3fLUErPBniMOf6tzNU2+03hW/yRjBynJMxRPFcG1GSicnfsbh2WVYPvtycR/Vanr23jS/TMq/0g6HiWruVsbzBOBvoHWMeXN0jgur6MjMYrTPTOHuXBkW0gh7jitZ5nOGEgr4=
