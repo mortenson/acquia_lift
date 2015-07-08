@@ -7,6 +7,8 @@ mysql:
   encoding: utf8
 addons:
   artifacts: true
+  paths:
+  - $(ls /tmp | tr "\n" ":")
 before_install:
 - wget https://raw.githubusercontent.com/jonkemp/qunit-phantomjs-runner/master/runner.js
 install:
