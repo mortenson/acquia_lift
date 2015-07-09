@@ -13,12 +13,19 @@ addons:
 before_install:
 - wget https://raw.githubusercontent.com/jonkemp/qunit-phantomjs-runner/master/runner.js
 install:
+- sudo apt-get update
+- sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl
+- sudo sed -i -e "s,/var/www,$(pwd)/acquia_lift,g" /etc/apache2/sites-available/default
+- echo -e 'site-available default'
+- cat /etc/apache2/sites-available/default
+- sudo /etc/init.d/apache2 restart
+
 - mysql -e 'create database lift;'
 - export PATH="$HOME/.composer/vendor/bin:$PATH"
 - composer global require --no-interaction --prefer-source drush/drush:6.*@dev
 - mv acquia_lift.make.dev.example acquia_lift.dev.make
 - ls
-- drush make acquia_lift.dev.make -y
+- drush make acquia_lift.dev.make acquia_lift -y
 - ls
 - pwd
 - cd behat-tests
@@ -40,7 +47,7 @@ before_script:
   'api_url' => 'api-us1.lift.acquia.com'));"
 - cd behat-tests
 - mv behat.template.yml behat.yml
-- sed -i -- 's#localurl#localhost:8080/lift#g' behat.yml
+- sed -i -- 's#localurl#localhost:8080/acquia_lift#g' behat.yml
 - sed -i -- 's#/Path/to/Drual/Webroot#/home/travis/build/acquia/acquia_lift#g' behat.yml
 - cd ..
 - BUILD_OWNER=`dirname $TRAVIS_BUILD_DIR`
@@ -53,7 +60,6 @@ script:
 - cd behat-tests
 - "./bin/behat"
 - cp -r /tmp tmp
-- ls
 notifications:
   slack:
     secure: mpS7oDoOBsl7KlQUY9loYd1gUiozp4D8kc3vl0nVkm8N8SpAR0RYplPHY/5Jtesbl73kWG4vV7UURNct0cc+szm0eLVbCFcS6vq6evzPKdHzl0U2YiFCLsJItDXBYhDDb5bY4yZgCY8zUBmnOM/S3NysxMMcNmU/DaqUvhZWnGU=
