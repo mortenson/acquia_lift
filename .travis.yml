@@ -26,7 +26,7 @@ install:
 - mv acquia_lift.make.dev.example acquia_lift.dev.make
 - ls
 - drush make acquia_lift.dev.make acquia_lift -y
-- ls
+- ls /home/travis/build/acquia/acquia_lift/acquia_lift
 - pwd
 - cd behat-tests
 - composer install
@@ -47,8 +47,8 @@ before_script:
   'api_url' => 'api-us1.lift.acquia.com'));"
 - cd behat-tests
 - mv behat.template.yml behat.yml
-- sed -i -- 's#localurl#localhost:8080/acquia_lift#g' behat.yml
-- sed -i -- 's#/Path/to/Drual/Webroot#/home/travis/build/acquia/acquia_lift#g' behat.yml
+- sed -i -- 's#localurl#localhost:80#g' behat.yml
+- sed -i -- 's#/Path/to/Drual/Webroot#/home/travis/build/acquia/acquia_lift/acquia_lift#g' behat.yml
 - cd ..
 - BUILD_OWNER=`dirname $TRAVIS_BUILD_DIR`
 - echo $BUILD_OWNER
