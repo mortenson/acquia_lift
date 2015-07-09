@@ -9,7 +9,7 @@ addons:
   artifacts:
   # ...
     paths:
-    - $(ls tmp | tr "\n" ":")
+    #- $(ls /tmp | tr "\n" ":")
 before_install:
 - wget https://raw.githubusercontent.com/jonkemp/qunit-phantomjs-runner/master/runner.js
 install:
@@ -53,6 +53,7 @@ script:
 - cd behat-tests
 - "./bin/behat"
 - cp -r /tmp tmp
+- ls
 notifications:
   slack:
     secure: mpS7oDoOBsl7KlQUY9loYd1gUiozp4D8kc3vl0nVkm8N8SpAR0RYplPHY/5Jtesbl73kWG4vV7UURNct0cc+szm0eLVbCFcS6vq6evzPKdHzl0U2YiFCLsJItDXBYhDDb5bY4yZgCY8zUBmnOM/S3NysxMMcNmU/DaqUvhZWnGU=
