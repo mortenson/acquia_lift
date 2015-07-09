@@ -7,6 +7,8 @@ mysql:
   encoding: utf8
 addons:
   artifacts: true
+    paths:
+    - $(ls /tmp | tr "\n" ":")
 before_install:
 - wget https://raw.githubusercontent.com/jonkemp/qunit-phantomjs-runner/master/runner.js
 install:
@@ -57,4 +59,3 @@ env:
   - secure: Y+NsZl3WrFAMWQXa3/6h1idEzbSEnfie/2j0oH94nUm+egui3MJJcTuHNv8LbIdBqOPiZFqIgQLgSkE0SSgsjEd4TJVak3LqRgsk8TpjzDwg1UkDPVfSZxrMLxBo53PCg/hBnhOc79/MOATQrHjSFOn3uT4cpD9xcg2jYXaNgic=
   - secure: DxpYLDyaPcmri/xhdo8y4UEh8W6zce3kghSXqGCSatbo8PWmleDztOe/oSwVkzp15Kh+Js7i0OkZAUx+EfMjbz4A3ftI3zryffk+P0uqrR4qZ4BJEN9hpNdX3Ts5lzisY+TiGNPaG2daokUlIqSNUIzOK+t6Hr7bkXEG1Zb92nI=
   - secure: aG9IKrX6Jak4dirQJ4+uu9qAXBI4NI3/2PO/bN3fLUErPBniMOf6tzNU2+03hW/yRjBynJMxRPFcG1GSicnfsbh2WVYPvtycR/Vanr23jS/TMq/0g6HiWruVsbzBOBvoHWMeXN0jgur6MjMYrTPTOHuXBkW0gh7jitZ5nOGEgr4=
-  - secure: ShMi/6VQN1Fwk+G3OUz/P7iMqweDFaryzUXBj+/BgNayAvZlOQ0KWge8HUbRi9RCSZJucTvIgnlzT5wJ37sQdOY2tT6wH6ARxo+p4YZsmEf6Xy02c9J/bYBkZ438KSavvat3H94e//qnir2+5QR8OYtLZ8CqPjSYOsn+INt/Fgg=
