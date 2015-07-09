@@ -7,6 +7,7 @@ mysql:
   encoding: utf8
 addons:
   artifacts: true
+  #testing formatting
     paths:
     - $(ls /tmp | tr "\n" ":")
 before_install:
