@@ -6,8 +6,8 @@ mysql:
   username: root
   encoding: utf8
 addons:
-  artifacts: true
-  #testing formatting
+  artifacts:
+  # ...
     paths:
     - $(ls /tmp | tr "\n" ":")
 before_install:
