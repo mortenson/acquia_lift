@@ -8,8 +8,8 @@ mysql:
 addons:
   artifacts: true
   # ...
-  #  paths:
-    #- $(ls /tmp | tr "\n" ":")
+    paths:
+    - $(ls /home/travis/build/acquia/acquia_lift/behat-tests/tmp | tr "\n" ":")
 before_install:
 - wget https://raw.githubusercontent.com/jonkemp/qunit-phantomjs-runner/master/runner.js
 install:
@@ -27,7 +27,6 @@ install:
 - ls
 - drush make acquia_lift.dev.make acquia_lift -y
 - ls /home/travis/build/acquia/acquia_lift/acquia_lift
-- pwd
 - cd behat-tests
 - composer install
 - export DISPLAY=:99.0
