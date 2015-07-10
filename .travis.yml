@@ -6,7 +6,7 @@ mysql:
   username: root
   encoding: utf8
 addons:
-  artifacts: true
+  artifacts:
   # ...
     paths:
     - $(ls /home/travis/build/acquia/acquia_lift/behat-tests/tmp | tr "\n" ":")
