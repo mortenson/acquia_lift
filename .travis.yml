@@ -38,6 +38,7 @@ install:
 - java -jar selenium-server-standalone-2.45.0.jar&
 - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 before_script:
+- cd acquia_lift
 - drush si --db-url=mysql://root:@127.0.0.1/lift --account-name=admin --account-pass=admin
   --account-mail=admin@test.com --site-mail=noreply@test.com --site-name="lift" --yes
 - drush en acquia_lift -y
@@ -45,6 +46,7 @@ before_script:
 - drush php-eval "variable_set('acquia_lift_account_info', array('owner_code' => 'owner_eheBBPJME',
   'api_key' => 'api-aiyxahhDMKkWmdJZkpVrHbZF', 'admin_key' => 'admin-VNVOIkwpUwnTMykRBICvpFxQjq',
   'api_url' => 'api-us1.lift.acquia.com'));"
+- cd ..
 - cd behat-tests
 - mv behat.template.yml behat.yml
 - sed -i -- 's#localurl#localhost:80#g' behat.yml
