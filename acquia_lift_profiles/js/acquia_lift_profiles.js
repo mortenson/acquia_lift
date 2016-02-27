@@ -95,15 +95,8 @@ var _tcwq = _tcwq || [];
           }
         };
 
-        // Register our callback for receiving segments.
-        // TODO: "onLoad" should happen before "init" and "pushTrack". However,
-        // current JS executing sequence is incorrect, therefore we are patching
-        // _tcwq by slotting "onLoad" in between "init" and "pushTrack".
-        var pushTrack = _tcwq.length > 0 ? _tcwq.pop() : null;
-        _tcwq.push(["onLoad", segmentsCallback]);
-        if (pushTrack) {
-          _tcwq.push(pushTrack);
-        }
+        _tcwq.push(['onLoad', segmentsCallback]);
+        _tcaq.push(['captureView', 'Content View', Drupal.acquia_lift_profiles.pageInfo]);
         callbackRegistered = true;
       });
     }
@@ -154,6 +147,7 @@ var _tcwq = _tcwq || [];
     var processedListeners = {}, initialized = false, initializing = false, pageFieldValues = {};
 
     return {
+      'pageInfo': {},
       'init': function(settings) {
         if (initialized || initializing || !settings.acquia_lift.hasOwnProperty('account_name')) {
           return;
@@ -184,6 +178,7 @@ var _tcwq = _tcwq || [];
           }
         }
 
+        var self = this;
         var callback = function(contextValues) {
           if (initialized) {
             return;
@@ -207,7 +202,7 @@ var _tcwq = _tcwq || [];
           }
 
           // Ensure sensible defaults for our capture data.
-          var pageInfo = $.extend({
+          self.pageInfo = $.extend({
             'content_title': 'Untitled',
             'content_type': 'page',
             'page_type': 'content page',
@@ -222,7 +217,6 @@ var _tcwq = _tcwq || [];
             'evalSegments': true,
             'trackingId': trackingId
           }, settings.acquia_lift_profiles.pageContext, pageFieldValues);
-          _tcaq.push( [ 'captureView', 'Content View', pageInfo ] );
 
           if(settings.acquia_lift_profiles.hasOwnProperty('identity')) {
             pushCaptureIdentity(settings.acquia_lift_profiles.identity, settings.acquia_lift_profiles.identityType);
@@ -253,15 +247,7 @@ var _tcwq = _tcwq || [];
             }
           };
 
-          // Register our callback for receiving segments.
-          // TODO: "onLoad" should happen before "init" and "pushTrack". However,
-          // current JS executing sequence is incorrect, therefore we are patching
-          // _tcwq by slotting "onLoad" in between "init" and "pushTrack".
-          var pushTrack = _tcwq.length > 0 ? _tcwq.pop() : null;
-          _tcwq.push(["onLoad", segmentsCallback]);
-          if (pushTrack) {
-            _tcwq.push(pushTrack);
-          }
+          _tcwq.push(['onLoad', segmentsCallback]);
           callbackRegistered = true;
         }
       },
